@@ -1,6 +1,6 @@
 # Resume Matcher
 
-![Resume Matcher Logo](static/logo.png)
+![Resume Matcher Logo](app/static/logo.png)
 
 A powerful tool that uses AI to match resumes against job descriptions, providing a match score and detailed analysis.
 
