@@ -1,178 +1,78 @@
 # Resume Matcher
 
-![Resume Matcher Logo](app/static/logo.png)
+![Resume Matcher Logo](static/logo.png)
 
-A powerful tool that uses AI to match resumes against job descriptions, providing a match score and detailed analysis.
+A modern web application that uses Google's Gemini AI to analyze and match resumes against job descriptions. Built with FastAPI and LangChain, this tool helps recruiters and hiring managers efficiently evaluate candidate resumes.
 
 ## Features
 
-- **Resume Analysis**: Upload multiple resumes and match them against a job description
-- **Multiple File Formats**: Supports PDF, DOCX, CSV, XLSX, and PPTX files
-- **AI-Powered Matching**: Uses Google's Gemini 2.0 Flash model to analyze and score resumes
-- **Detailed Feedback**: Provides match scores and explanations for each candidate
-- **Simple Interface**: Clean, user-friendly web interface
-
-## Technology Stack
-
-- **Backend**: FastAPI
-- **AI/ML**: LangChain + Google Gemini AI
-- **Frontend**: HTML, Bootstrap CSS
-- **Document Processing**: Various document loaders for different file formats
+- **Smart Resume Analysis**: Leverages Google's Gemini AI to analyze resumes against job descriptions
+- **Multiple Format Support**: Handles various file formats including PDF, DOCX, CSV, XLSX, and PPTX
+- **Batch Processing**: Upload and analyze multiple resumes simultaneously
+- **Scoring System**: Provides a match score out of 10 with detailed explanations
+- **Clean UI**: Modern, responsive interface built with Bootstrap
+- **Real-time Processing**: Instant feedback on resume matches
 
 ## Prerequisites
 
-- Python 3.8+
-- Google Gemini API key
+- Python 3.8 or higher
+- Google API Key for Gemini AI
 
 ## Installation
 
 1. Clone the repository:
+```bash
+git clone https://github.com/yourusername/resume_matcher.git
+cd resume_matcher
+```
 
-   ```git
-   git clone https://github.com/tamaraiselva/resume-matcher-enhancement.git
-   cd resume-matcher-enhancement
-   ```
+2. Install dependencies:
+```bash
+pip install -r requirements.txt
+```
 
-2. Create a virtual environment:
+3. Create a `.env` file in the project root and add your Google API key:
+```env
+GOOGLE_API_KEY=your_api_key_here
+```
 
-   ```bash
-   python -m venv venv
-   source venv/bin/activate  # On Windows: venv\Scripts\activate
-   ```
+## Usage
 
-3. Install dependencies:
+1. Start the application:
+```bash
+python app/main.py
+```
 
-   ```python
-   pip install -r requirements.txt
-   ```
+2. Open your browser and navigate to `http://localhost:10000`
 
-4. Create a `.env` file in the root directory with your Google API key:
+3. Enter the job description and upload resumes (PDF/DOCX format)
 
-   ```bash
-   GOOGLE_API_KEY = "your_google_api_key_here"
-   ```
+4. Click "Analyze" to get detailed matching results
 
-## Development Usage
+## Project Structure
 
-1. Start the development server:
+```bash
+resume_matcher/
+├── app/
+│   └── main.py          # Main application file
+├── static/              # Static files (images, etc.)
+├── .env                 # Environment variables
+└── requirements.txt     # Project dependencies
+```
 
-   ```python
-   python app.py
-   ```
+## Dependencies
 
-2. Open your browser and navigate to:
+- `FastAPI:` Web framework for building APIs
+- `LangChain:` Framework for developing applications powered by language models
+- `Google Generative AI:` Access to Google's Gemini model
+- `Python-Multipart:` Handling file uploads
+- `Python-dotenv:` Managing environment variables
+- Various document loaders for different file formats
 
-   ```cmd
-   http://127.0.0.1:8000
-   ```
+## Contributing
 
-3. Enter a job description in the text area.
-
-4. Upload one or more resumes (PDF, DOCX, etc.).
-
-5. Click "Analyze" to process the resumes.
-
-6. View the results with match scores and detailed analysis for each candidate.
-
-## Production Deployment
-
-1. Install Gunicorn (production WSGI server):
-
-   ```bash
-   pip install gunicorn
-   ```
-
-2. Create a systemd service file (Linux systems):
-
-   ```bash
-   sudo nano /etc/systemd/system/resume-matcher.service
-   ```
-
-   Add the following content:
-
-   ```ini
-   [Unit]
-   Description=Resume Matcher Gunicorn Service
-   After=network.target
-
-   [Service]
-   User=your_username
-   Group=your_group
-   WorkingDirectory=/path/to/resume-matcher-enhancement
-   Environment="PATH=/path/to/resume-matcher-enhancement/venv/bin"
-   Environment="GOOGLE_API_KEY=your_google_api_key_here"
-   ExecStart=/path/to/resume-matcher-enhancement/venv/bin/gunicorn -w 4 -k uvicorn.workers.UvicornWorker app:app -b 0.0.0.0:8000
-
-   [Install]
-   WantedBy=multi-user.target
-   ```
-
-3. Start and enable the service:
-
-   ```bash
-   sudo systemctl start resume-matcher
-   sudo systemctl enable resume-matcher
-   ```
-
-4. Install and configure Nginx as reverse proxy:
-
-   ```bash
-   sudo apt install nginx
-   sudo nano /etc/nginx/sites-available/resume-matcher
-   ```
-
-   Add the following configuration:
-
-   ```nginx
-   server {
-       listen 80;
-       server_name your_domain.com;
-
-       location / {
-           proxy_pass http://127.0.0.1:8000;
-           proxy_set_header Host $host;
-           proxy_set_header X-Real-IP $remote_addr;
-       }
-
-       location /static/ {
-           alias /path/to/resume-matcher-enhancement/static/;
-       }
-   }
-   ```
-
-5. Enable the site and restart Nginx:
-
-   ```bash
-   sudo ln -s /etc/nginx/sites-available/resume-matcher /etc/nginx/sites-enabled/
-   sudo nginx -t
-   sudo systemctl restart nginx
-   ```
-
-6. Access your application at `http://your_domain.com`
-
-## How It Works
-
-1. The application accepts a job description and multiple resume files.
-2. Each resume is processed and converted to text using appropriate document loaders.
-3. The LangChain framework with Google's Gemini AI analyzes each resume against the job description.
-4. The AI provides a match score out of 10 and explains the reasoning behind the score.
-5. Results are displayed in a clean, easy-to-read format.
-
-## Future Enhancements
-
-- Streamlit interface option
-- Batch processing for large numbers of resumes
-- Export results to PDF or CSV
-- More detailed analysis with skill matching
-- User accounts and saved job descriptions
+Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## License
 
-[MIT License](LICENSE)
-
-## Acknowledgements
-
-- Google Generative AI
-- LangChain Framework
-- FastAPI
-- Bootstrap CSS
+This project is licensed under the MIT License - see the LICENSE file for details.
