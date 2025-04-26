@@ -7,3 +7,4 @@ langchain-google-genai
 python-dotenv
 markdown
 langchain_community
+pypdf>=3.1.0
