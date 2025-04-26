@@ -41,7 +41,7 @@ GEMINI_MODEL = "gemini-2.0-flash"
 llm = ChatGoogleGenerativeAI(model=GEMINI_MODEL, google_api_key=API_KEY)
 
 app = FastAPI()
-app.mount("/static", StaticFiles(directory="static"), name="static")
+app.mount("/static", StaticFiles(directory=os.path.join(os.path.dirname(__file__), "../static")), name="static")
 
 app.add_middleware(
     CORSMiddleware,
@@ -82,7 +82,7 @@ async def upload_form():
                 background-size: cover;
             }
             .img-col {
-                background-image: url('/static/image.png');
+                background-image: url('/static/image.jpeg');
                 background-size: contain;
                 background-repeat: no-repeat;
                 background-position: center;
@@ -120,13 +120,14 @@ async def upload_form():
 async def analyze_resumes(files: List[UploadFile] = File(...), prompt: str = Form(...)):
     task_id = str(uuid.uuid4())
     logging.info(f"Start resume analysis: Task {task_id}")
-    os.makedirs("static", exist_ok=True)
+    static_dir = os.path.join(os.path.dirname(__file__), "../static")
+    os.makedirs(static_dir, exist_ok=True)
     results = []
 
     try:
         file_paths = []
         for file in files:
-            path = os.path.join("static", f"{task_id}_{file.filename}")
+            path = os.path.join(static_dir, f"{task_id}_{file.filename}")
             with open(path, "wb") as f:
                 f.write(await file.read())
             file_paths.append(path)
